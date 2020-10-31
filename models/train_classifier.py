@@ -34,7 +34,6 @@ def load_data(database_filepath):
     '''
     This function loads data from the database file name input given\n
     ...and outputs the data: X (feature columns), Y (target column), category names\n
-
     :param database_filepath: database file name
     '''
     # load data from database file path
@@ -208,7 +207,8 @@ def main():
         print('Training model...')
         model.fit(X_train, Y_train)
         print('Model train completed!')     
-        
+        print("\nBest Parameters:", model.best_params_)  
+         
         print('Evaluating model...')
         evaluate_model(model, X_test, Y_test, category_names)
         print('Model evaluation completed!')     

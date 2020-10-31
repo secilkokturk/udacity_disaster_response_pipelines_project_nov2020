@@ -1,25 +1,32 @@
+import sys
 import json
 import plotly
 import pandas as pd
-
+import re
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
-
 from flask import Flask
 from flask import render_template, request, jsonify
 from plotly.graph_objs import Bar
 import joblib
 from sqlalchemy import create_engine
-
+import nltk
 from nltk.corpus import stopwords
+import pickle
 
 nltk.download(['stopwords', 'punkt', 'wordnet'])
 
 app = Flask(__name__)
 
+class MyCustomUnpickler(pickle.Unpickler):
+    def find_class(self, module, name):
+        if module == "__main__":
+            module = "run"
+        return super().find_class(module, name)
+
 def tokenize(text):
 
-   '''
+    '''
     This function normalize, removes punctuation, tokenize, remove stopwords, lemmatize, stem, and lemmatize words in text
     
     param text: text
@@ -44,8 +51,11 @@ engine = create_engine('sqlite:///../data/DisasterResponse.db')
 df = pd.read_sql_table('Message', engine)
 
 # load model
-model = joblib.load("../models/classifier.pkl")
-
+#model = joblib.load("../models/classifier.pkl")
+with open('../models/classifier.pkl', 'rb') as f:
+    #model = pickle.load(f)
+    unpickler = MyCustomUnpickler(f)
+    model = unpickler.load()
 
 # index webpage displays cool visuals and receives user input text for model
 @app.route('/')
@@ -117,7 +127,7 @@ def go():
     # use model to predict classification for query
     classification_labels = model.predict([query])[0]
     classification_results = dict(zip(df.columns[4:], classification_labels))
-
+    print(classification_results)
     # This will render the go.html Please see that file. 
     return render_template(
         'go.html',
@@ -127,6 +137,7 @@ def go():
 
 
 def main():
+
     app.run(host='0.0.0.0', port=3001, debug=True)
 
 
