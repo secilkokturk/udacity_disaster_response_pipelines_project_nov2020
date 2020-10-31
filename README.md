@@ -1,6 +1,6 @@
 # Disaster Response Pipeline Project
 
-### This project is developed in order to fulfill the Udacity Data Science Nanodegree by Secil Kokturk:
+### This project is developed in order to fulfill the Udacity Data Science Nanodegree:
 
 The disaster messages and categories data from Figure Eight is analyzed and used for training a model that would classify messages.
 
