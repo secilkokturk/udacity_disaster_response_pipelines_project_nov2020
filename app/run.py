@@ -13,6 +13,8 @@ from sqlalchemy import create_engine
 
 from nltk.corpus import stopwords
 
+nltk.download(['stopwords', 'punkt', 'wordnet'])
+
 app = Flask(__name__)
 
 def tokenize(text):
@@ -22,28 +24,18 @@ def tokenize(text):
     
     param text: text
     ''' 
-    # use a custom tokenize function using nltk to case normalize, lemmatize, and tokenize text: vectorize and then apply TF-IDF to the text
-
-    #case normalize
-    text = text.lower() 
-
-    #remove punctuation
-    text = re.sub(r"[^a-zA-Z0-9]", " ", text) 
-    
     #tokenize
+  
     words = word_tokenize(text)
     
-    
+    english_stp_words = stopwords.words("english")
     lemmeds = []
     for w in words:
-        if w not in stopwords.words("english"): #remove stopwords
-            #stemmed = PorterStemmer().stem(w) #stem
-            lemmed = WordNetLemmatizer().lemmatize(w)#lemmatize
+        w=re.sub(r"[^a-zA-Z0-9]", " ", w.lower())
+        if w not in english_stp_words: #remove stopwords
+            lemmed = WordNetLemmatizer().lemmatize(w.strip())#lemmatize
             lemmeds.append(lemmed)
             
-    # Lemmatize verbs by specifying pos
-    #lemmed = [WordNetLemmatizer().lemmatize(w, pos='v') for w in lemmeds]
-
     return lemmeds
     
 

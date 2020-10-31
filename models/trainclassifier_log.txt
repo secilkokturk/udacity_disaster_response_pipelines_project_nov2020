@@ -1,0 +1,658 @@
+(base) D:\Dropbox\SECILS\udacity\ds_nanodegree\project-disasterresponsepipelines\CODE\SUBMIT_20201028\models>python train_classifier.py ../data/DisasterResponse.db classifier.pkl
+[nltk_data] Downloading package stopwords to
+[nltk_data]     C:\Users\koktu\AppData\Roaming\nltk_data...
+[nltk_data]   Package stopwords is already up-to-date!
+[nltk_data] Downloading package punkt to
+[nltk_data]     C:\Users\koktu\AppData\Roaming\nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+[nltk_data] Downloading package wordnet to
+[nltk_data]     C:\Users\koktu\AppData\Roaming\nltk_data...
+[nltk_data]   Package wordnet is already up-to-date!
+Loading data...
+    DATABASE: ../data/DisasterResponse.db
+Splitting test and train!
+Test and train splitted!
+Building model...
+Parameters built!
+cv built!
+Model build completed!
+Training model...
+Model train completed!
+Evaluating model...
+Evaluation started!
+Performance of Column:related
+
+              precision    recall  f1-score   support
+
+           0       0.72      0.38      0.50      1249
+           1       0.83      0.95      0.88      3960
+           2       0.41      0.26      0.32        35
+
+    accuracy                           0.81      5244
+   macro avg       0.65      0.53      0.57      5244
+weighted avg       0.80      0.81      0.79      5244
+
+Performance of Column:request
+
+              precision    recall  f1-score   support
+
+           0       0.90      0.98      0.94      4303
+           1       0.85      0.50      0.63       941
+
+    accuracy                           0.89      5244
+   macro avg       0.88      0.74      0.78      5244
+weighted avg       0.89      0.89      0.88      5244
+
+Performance of Column:offer
+
+C:\ProgramData\Anaconda3\lib\site-packages\sklearn\metrics\_classification.py:1221: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00      5224
+           1       0.00      0.00      0.00        20
+
+    accuracy                           1.00      5244
+   macro avg       0.50      0.50      0.50      5244
+weighted avg       0.99      1.00      0.99      5244
+
+Performance of Column:aid_related
+
+              precision    recall  f1-score   support
+
+           0       0.79      0.86      0.82      3060
+           1       0.77      0.67      0.72      2184
+
+    accuracy                           0.78      5244
+   macro avg       0.78      0.77      0.77      5244
+weighted avg       0.78      0.78      0.78      5244
+
+Performance of Column:medical_help
+
+              precision    recall  f1-score   support
+
+           0       0.92      1.00      0.96      4821
+           1       0.72      0.07      0.12       423
+
+    accuracy                           0.92      5244
+   macro avg       0.82      0.53      0.54      5244
+weighted avg       0.91      0.92      0.89      5244
+
+Performance of Column:medical_products
+
+              precision    recall  f1-score   support
+
+           0       0.95      1.00      0.97      4976
+           1       0.72      0.08      0.14       268
+
+    accuracy                           0.95      5244
+   macro avg       0.84      0.54      0.56      5244
+weighted avg       0.94      0.95      0.93      5244
+
+Performance of Column:search_and_rescue
+
+              precision    recall  f1-score   support
+
+           0       0.97      1.00      0.99      5109
+           1       0.67      0.03      0.06       135
+
+    accuracy                           0.97      5244
+   macro avg       0.82      0.51      0.52      5244
+weighted avg       0.97      0.97      0.96      5244
+
+Performance of Column:security
+
+              precision    recall  f1-score   support
+
+           0       0.98      1.00      0.99      5145
+           1       1.00      0.01      0.02        99
+
+    accuracy                           0.98      5244
+   macro avg       0.99      0.51      0.51      5244
+weighted avg       0.98      0.98      0.97      5244
+
+Performance of Column:military
+
+              precision    recall  f1-score   support
+
+           0       0.97      1.00      0.98      5078
+           1       0.59      0.06      0.11       166
+
+    accuracy                           0.97      5244
+   macro avg       0.78      0.53      0.55      5244
+weighted avg       0.96      0.97      0.96      5244
+
+Performance of Column:child_alone
+
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00      5244
+
+    accuracy                           1.00      5244
+   macro avg       1.00      1.00      1.00      5244
+weighted avg       1.00      1.00      1.00      5244
+
+Performance of Column:water
+
+              precision    recall  f1-score   support
+
+           0       0.96      1.00      0.98      4923
+           1       0.88      0.36      0.51       321
+
+    accuracy                           0.96      5244
+   macro avg       0.92      0.68      0.74      5244
+weighted avg       0.96      0.96      0.95      5244
+
+Performance of Column:food
+
+              precision    recall  f1-score   support
+
+           0       0.94      0.99      0.97      4653
+           1       0.86      0.52      0.65       591
+
+    accuracy                           0.94      5244
+   macro avg       0.90      0.76      0.81      5244
+weighted avg       0.93      0.94      0.93      5244
+
+Performance of Column:shelter
+
+              precision    recall  f1-score   support
+
+           0       0.94      0.99      0.97      4768
+           1       0.86      0.35      0.49       476
+
+    accuracy                           0.94      5244
+   macro avg       0.90      0.67      0.73      5244
+weighted avg       0.93      0.94      0.92      5244
+
+Performance of Column:clothing
+
+              precision    recall  f1-score   support
+
+           0       0.99      1.00      0.99      5171
+           1       0.70      0.10      0.17        73
+
+    accuracy                           0.99      5244
+   macro avg       0.84      0.55      0.58      5244
+weighted avg       0.98      0.99      0.98      5244
+
+Performance of Column:money
+
+              precision    recall  f1-score   support
+
+           0       0.98      1.00      0.99      5129
+           1       0.75      0.03      0.05       115
+
+    accuracy                           0.98      5244
+   macro avg       0.86      0.51      0.52      5244
+weighted avg       0.97      0.98      0.97      5244
+
+Performance of Column:missing_people
+
+              precision    recall  f1-score   support
+
+           0       0.99      1.00      0.99      5181
+           1       0.00      0.00      0.00        63
+
+    accuracy                           0.99      5244
+   macro avg       0.49      0.50      0.50      5244
+weighted avg       0.98      0.99      0.98      5244
+
+Performance of Column:refugees
+
+              precision    recall  f1-score   support
+
+           0       0.96      1.00      0.98      5049
+           1       0.67      0.01      0.02       195
+
+    accuracy                           0.96      5244
+   macro avg       0.81      0.51      0.50      5244
+weighted avg       0.95      0.96      0.95      5244
+
+Performance of Column:death
+
+              precision    recall  f1-score   support
+
+           0       0.96      1.00      0.98      4990
+           1       0.86      0.15      0.25       254
+
+    accuracy                           0.96      5244
+   macro avg       0.91      0.57      0.61      5244
+weighted avg       0.95      0.96      0.94      5244
+
+Performance of Column:other_aid
+
+              precision    recall  f1-score   support
+
+           0       0.87      1.00      0.93      4544
+           1       0.50      0.03      0.06       700
+
+    accuracy                           0.87      5244
+   macro avg       0.68      0.51      0.49      5244
+weighted avg       0.82      0.87      0.81      5244
+
+Performance of Column:infrastructure_related
+
+              precision    recall  f1-score   support
+
+           0       0.93      1.00      0.96      4890
+           1       0.25      0.00      0.01       354
+
+    accuracy                           0.93      5244
+   macro avg       0.59      0.50      0.49      5244
+weighted avg       0.89      0.93      0.90      5244
+
+Performance of Column:transport
+
+              precision    recall  f1-score   support
+
+           0       0.95      1.00      0.97      4981
+           1       0.56      0.04      0.07       263
+
+    accuracy                           0.95      5244
+   macro avg       0.75      0.52      0.52      5244
+weighted avg       0.93      0.95      0.93      5244
+
+Performance of Column:buildings
+
+              precision    recall  f1-score   support
+
+           0       0.95      1.00      0.98      4965
+           1       0.77      0.13      0.23       279
+
+    accuracy                           0.95      5244
+   macro avg       0.86      0.57      0.60      5244
+weighted avg       0.94      0.95      0.94      5244
+
+Performance of Column:electricity
+
+              precision    recall  f1-score   support
+
+           0       0.98      1.00      0.99      5142
+           1       0.62      0.05      0.09       102
+
+    accuracy                           0.98      5244
+   macro avg       0.80      0.52      0.54      5244
+weighted avg       0.97      0.98      0.97      5244
+
+Performance of Column:tools
+
+              precision    recall  f1-score   support
+
+           0       0.99      1.00      1.00      5212
+           1       0.00      0.00      0.00        32
+
+    accuracy                           0.99      5244
+   macro avg       0.50      0.50      0.50      5244
+weighted avg       0.99      0.99      0.99      5244
+
+Performance of Column:hospitals
+
+              precision    recall  f1-score   support
+
+           0       0.99      1.00      0.99      5181
+           1       0.00      0.00      0.00        63
+
+    accuracy                           0.99      5244
+   macro avg       0.49      0.50      0.50      5244
+weighted avg       0.98      0.99      0.98      5244
+
+Performance of Column:shops
+
+              precision    recall  f1-score   support
+
+           0       0.99      1.00      1.00      5215
+           1       0.00      0.00      0.00        29
+
+    accuracy                           0.99      5244
+   macro avg       0.50      0.50      0.50      5244
+weighted avg       0.99      0.99      0.99      5244
+
+Performance of Column:aid_centers
+
+              precision    recall  f1-score   support
+
+           0       0.99      1.00      0.99      5175
+           1       0.00      0.00      0.00        69
+
+    accuracy                           0.99      5244
+   macro avg       0.49      0.50      0.50      5244
+weighted avg       0.97      0.99      0.98      5244
+
+Performance of Column:other_infrastructure
+
+              precision    recall  f1-score   support
+
+           0       0.96      1.00      0.98      5017
+           1       0.00      0.00      0.00       227
+
+    accuracy                           0.96      5244
+   macro avg       0.48      0.50      0.49      5244
+weighted avg       0.92      0.96      0.94      5244
+
+Performance of Column:weather_related
+
+              precision    recall  f1-score   support
+
+           0       0.89      0.95      0.92      3796
+           1       0.85      0.69      0.76      1448
+
+    accuracy                           0.88      5244
+   macro avg       0.87      0.82      0.84      5244
+weighted avg       0.88      0.88      0.87      5244
+
+Performance of Column:floods
+
+              precision    recall  f1-score   support
+
+           0       0.95      0.99      0.97      4808
+           1       0.89      0.44      0.59       436
+
+    accuracy                           0.95      5244
+   macro avg       0.92      0.72      0.78      5244
+weighted avg       0.95      0.95      0.94      5244
+
+Performance of Column:storm
+
+              precision    recall  f1-score   support
+
+           0       0.95      0.99      0.97      4741
+           1       0.79      0.53      0.63       503
+
+    accuracy                           0.94      5244
+   macro avg       0.87      0.76      0.80      5244
+weighted avg       0.94      0.94      0.94      5244
+
+Performance of Column:fire
+
+              precision    recall  f1-score   support
+
+           0       0.99      1.00      1.00      5193
+           1       1.00      0.04      0.08        51
+
+    accuracy                           0.99      5244
+   macro avg       1.00      0.52      0.54      5244
+weighted avg       0.99      0.99      0.99      5244
+
+Performance of Column:earthquake
+
+              precision    recall  f1-score   support
+
+           0       0.98      0.99      0.98      4778
+           1       0.89      0.75      0.82       466
+
+    accuracy                           0.97      5244
+   macro avg       0.93      0.87      0.90      5244
+weighted avg       0.97      0.97      0.97      5244
+
+Performance of Column:cold
+
+              precision    recall  f1-score   support
+
+           0       0.98      1.00      0.99      5123
+           1       0.68      0.16      0.26       121
+
+    accuracy                           0.98      5244
+   macro avg       0.83      0.58      0.62      5244
+weighted avg       0.97      0.98      0.97      5244
+
+Performance of Column:other_weather
+
+              precision    recall  f1-score   support
+
+           0       0.95      1.00      0.97      4952
+           1       0.60      0.02      0.04       292
+
+    accuracy                           0.94      5244
+   macro avg       0.77      0.51      0.51      5244
+weighted avg       0.93      0.94      0.92      5244
+
+Performance of Column:direct_report
+
+              precision    recall  f1-score   support
+
+           0       0.87      0.98      0.92      4231
+           1       0.82      0.37      0.51      1013
+
+    accuracy                           0.86      5244
+   macro avg       0.84      0.68      0.72      5244
+weighted avg       0.86      0.86      0.84      5244
+
+Evaluation completed!
+Model evaluation completed!
+Saving model...
+    MODEL: classifier.pkl
+Model save started!
+Model save completed!
+Trained model saved!
+
+(base) D:\Dropbox\SECILS\udacity\ds_nanodegree\project-disasterresponsepipelines\CODE\SUBMIT_20201028\models>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  yyyyy   23
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
