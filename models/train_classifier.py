@@ -27,46 +27,7 @@ from sklearn.base import BaseEstimator, TransformerMixin
 import pickle
 from sklearn.metrics import classification_report
 
-nltk.download(['stopwords', 'punkt', 'wordnet', 'averaged_perceptron_tagger'])
-
-class StartingVerbExtract(BaseEstimator, TransformerMixin):
-    '''
-    Finds the starting verb in text
-    '''
-    def starting_verb(self, text):
-        sentence_list = nltk.sent_tokenize(text)
-        for sentence in sentence_list:
-            pos_tags = nltk.pos_tag(tokenize(sentence))
-            first_word, first_tag = pos_tags[0]
-            if first_tag in ['VB', 'VBP'] or first_word == 'RT':
-                return True
-        return False
-
-    def fit(self, x, y=None):
-        return self
-
-    def transform(self, X):
-        X_tagged = pd.Series(X).apply(self.starting_verb)
-        return pd.DataFrame(X_tagged)
-
-
-class TextLengthExtract(BaseEstimator, TransformerMixin):
-    '''
-    Finds the text length of each df cell
-    '''
-    def fit(self, X, y=None):
-    	'''
-    	fit self
-    	'''
-    	return self
-
-    def transform(self, X):
-    	'''
-    	Finds the text length of each cell in df
-    	'''
-    	X_length = pd.Series(X).str.len()
-    	return pd.DataFrame(X_length)
-
+nltk.download(['stopwords', 'punkt', 'wordnet'])
 
 def load_data(database_filepath):
 
@@ -99,16 +60,20 @@ def load_data(database_filepath):
     #print('Investigate genre column:\n')
     #df.groupby(['genre']).size()
     
-    print('Encode genre column:\n')
-    one_hot = pd.get_dummies(df['genre'])
-    df = df.join(one_hot)
-    df = df.drop('genre',axis = 1)
-    print('Genre column encoded!\n')
-    print('Columns:\n')
+    #print('Encode genre column:\n')
+    #one_hot = pd.get_dummies(df['genre'])
+    #df = df.join(one_hot)
+    #df = df.drop('genre',axis = 1)
+    #print('Genre column encoded!\n')
+    #print('Columns:\n')
     #print(df.columns)
 
     X = df['message']
-    Y = df.drop(columns=['id','message','original'])
+    if 'index' in df:
+        Y = df.drop(columns=['index','id','message','original', 'genre'])
+    else:
+        Y = df.drop(columns=['id','message','original', 'genre'])
+
     
     return X, Y, Y.columns
 
@@ -121,75 +86,55 @@ def tokenize(text):
     ''' 
     # use a custom tokenize function using nltk to case normalize, lemmatize, and tokenize text: vectorize and then apply TF-IDF to the text
 
-    #case normalize
-    text = text.lower() 
-
-    #remove punctuation
-    text = re.sub(r"[^a-zA-Z0-9]", " ", text) 
-    
     #tokenize
+  
     words = word_tokenize(text)
     
-    
+    english_stp_words = stopwords.words("english")
     lemmeds = []
     for w in words:
-        if w not in stopwords.words("english"): #remove stopwords
-            #stemmed = PorterStemmer().stem(w) #stem
-            lemmed = WordNetLemmatizer().lemmatize(w)#lemmatize
+        w=re.sub(r"[^a-zA-Z0-9]", " ", w.lower())
+        if w not in english_stp_words: #remove stopwords
+            lemmed = WordNetLemmatizer().lemmatize(w.strip())#lemmatize
             lemmeds.append(lemmed)
             
-    # Lemmatize verbs by specifying pos
-    lemmed = [WordNetLemmatizer().lemmatize(w, pos='v') for w in lemmeds]
-
-    clean_lems = []
-    for lem in lemmed:
-        clean_lems.append(lem)
-    return clean_lems
+    return lemmeds
     
 def build_model():
     '''
     This function creates a classifier pipeline
     ''' 
 
-    #build a pipeline that processes text and then performs multi-output classification on the 39 categories in the dataset:
+    #build a pipeline that processes text and then performs multi-output classification on the 36 categories in the dataset:
     #related, request, offer, aid_related, medical_help, medical_products, search_and_rescue, security, military, child_alone, water, food, shelter, clothing, money, missing_people, refugees, death, other_aid, infrastructure_related, transport, buildings, electricity, tools, hospitals, shops, aid_centers, other_infrastructure, weather_related, floods, storm, fire, earthquake, cold, other_weather, direct_report,
-    # (encoded from genre) direct, news, social
     #The script uses a custom tokenize function using nltk to case normalize, lemmatize, and tokenize text. This function is used in the machine learning pipeline to vectorize and then apply TF-IDF to the text.
 
     #create the pipeline for text transformation
+
+    ############
+   # Build out the pipeline
     pipeline = Pipeline([
-        ('features', FeatureUnion
-            ([
+        ('features', FeatureUnion([
 
-                ('text_pipeline', 
-                
-                Pipeline([
-                    ('vect', CountVectorizer(tokenizer=tokenize)),
-                    ('tfidf', TfidfTransformer())
-                        ])
-                )
-            ])
-            ,
-            ('starting_verb', StartingVerbExtract()),
-            ('text_len', TextLengthExtract())
-        ),
+            ('text_pipeline', Pipeline([
+                ('vect', CountVectorizer(tokenizer=tokenize)),
+                ('tfidf', TfidfTransformer())
+            ]))
+        ])),
 
-        ('m_clf', MultiOutputClassifier(RandomForestClassifier(verbose=1)))
+        ('clf', MultiOutputClassifier(RandomForestClassifier()))
     ])
-    #optimization & evaluation: GridSearchCV is used to find the best parameters for the model
-
     # Set up the search grid
     parameters = {
-        'features__text_pipeline__tfidf__use_idf': (True, False),
-        'clf__estimator__n_estimators': [100, 150, 200],
-        'clf__min_samples_split': [2, 3, 4],
-        'features__text_pipeline__vect__ngram_range': ((1, 1), (1, 2)),
-        'features__text_pipeline__vect__max_df': (0.5, 0.75, 1.0),
-        'features__text_pipeline__vect__max_features': (None, 5000, 10000)
-    }
+        'features__text_pipeline__tfidf__use_idf': (True, False),      
+        'clf__estimator__n_estimators': [50, 100]
+    }    
+    ############
+    
+    print('Parameters built!')
     # Initialize GridSearch cross validation object
     cv = GridSearchCV(pipeline, param_grid=parameters)
-
+    print('cv built!')
     return cv
 
 def evaluate_model(model, X_test, Y_test, category_names):
@@ -201,7 +146,9 @@ def evaluate_model(model, X_test, Y_test, category_names):
     :param X_test: test set
     :param Y_test: target set
     :param category_names: target categories
-    ''' 
+    '''
+    print('Evaluation started!')
+    
     # Predict the test set
     Y_pred = model.predict(X_test)
 
@@ -213,6 +160,8 @@ def evaluate_model(model, X_test, Y_test, category_names):
         print(f'Performance of Column:{col}\n')
         print(classification_report(Y_test[col],Y_pred[col]))
 
+    print('Evaluation completed!')
+
 
 def save_model(model, model_filepath):
     # store the classifier into a pickle file to the specified model file path
@@ -222,8 +171,12 @@ def save_model(model, model_filepath):
     :param model: model
     :param model_filepath: pickle file name
     '''
+    
+    print('Model save started!')
+    
     pickle.dump(model, open(model_filepath, 'wb'))  
     
+    print('Model save completed!')
 
 def main():
 
@@ -236,28 +189,33 @@ def main():
         X, Y, category_names = load_data(database_filepath)
         
         #check the tokenize function
-        for m in X[:20]:
-            print(m)
-            print(tokenize(m))
+        #for m in X[:20]:
+        #    print(m)
+        #    print(tokenize(m))
             
             
         #Split the dataset into training and test sets
+        print('Splitting test and train!')
         X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2)
+        print('Test and train splitted!')     
         
         # create and train a classifier      
         print('Building model...')
         model = build_model()
+        print('Model build completed!')     
+
         
         print('Training model...')
         model.fit(X_train, Y_train)
+        print('Model train completed!')     
         
         print('Evaluating model...')
         evaluate_model(model, X_test, Y_test, category_names)
+        print('Model evaluation completed!')     
 
         # store the classifier into a pickle file to the specified model file path
         print('Saving model...\n    MODEL: {}'.format(model_filepath))
         save_model(model, model_filepath)
-
         print('Trained model saved!')
 
     else:

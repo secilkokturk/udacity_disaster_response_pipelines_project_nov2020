@@ -8,29 +8,51 @@ from nltk.tokenize import word_tokenize
 from flask import Flask
 from flask import render_template, request, jsonify
 from plotly.graph_objs import Bar
-from sklearn.externals import joblib
+import joblib
 from sqlalchemy import create_engine
 
+from nltk.corpus import stopwords
 
 app = Flask(__name__)
 
 def tokenize(text):
-    tokens = word_tokenize(text)
-    lemmatizer = WordNetLemmatizer()
 
-    clean_tokens = []
-    for tok in tokens:
-        clean_tok = lemmatizer.lemmatize(tok).lower().strip()
-        clean_tokens.append(clean_tok)
+   '''
+    This function normalize, removes punctuation, tokenize, remove stopwords, lemmatize, stem, and lemmatize words in text
+    
+    param text: text
+    ''' 
+    # use a custom tokenize function using nltk to case normalize, lemmatize, and tokenize text: vectorize and then apply TF-IDF to the text
 
-    return clean_tokens
+    #case normalize
+    text = text.lower() 
+
+    #remove punctuation
+    text = re.sub(r"[^a-zA-Z0-9]", " ", text) 
+    
+    #tokenize
+    words = word_tokenize(text)
+    
+    
+    lemmeds = []
+    for w in words:
+        if w not in stopwords.words("english"): #remove stopwords
+            #stemmed = PorterStemmer().stem(w) #stem
+            lemmed = WordNetLemmatizer().lemmatize(w)#lemmatize
+            lemmeds.append(lemmed)
+            
+    # Lemmatize verbs by specifying pos
+    #lemmed = [WordNetLemmatizer().lemmatize(w, pos='v') for w in lemmeds]
+
+    return lemmeds
+    
 
 # load data
-engine = create_engine('sqlite:///../data/YourDatabaseName.db')
-df = pd.read_sql_table('YourTableName', engine)
+engine = create_engine('sqlite:///../data/DisasterResponse.db')
+df = pd.read_sql_table('Message', engine)
 
 # load model
-model = joblib.load("../models/your_model_name.pkl")
+model = joblib.load("../models/classifier.pkl")
 
 
 # index webpage displays cool visuals and receives user input text for model
@@ -41,8 +63,10 @@ def index():
     # extract data needed for visuals
     # TODO: Below is an example - modify to extract data for your own visuals
     genre_counts = df.groupby('genre').count()['message']
-    genre_names = list(genre_counts.index)
+    genre_names = list(genre_counts.index)  
     
+    request_counts = df.groupby('request').count()['message']
+    request_names = list(request_counts.index)  
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
     graphs = [
@@ -61,6 +85,24 @@ def index():
                 },
                 'xaxis': {
                     'title': "Genre"
+                }
+            }
+        },
+        {
+            'data': [
+                Bar(
+                    x=request_names,
+                    y=request_counts
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution of Request Messages',
+                'yaxis': {
+                    'title': "Count"
+                },
+                'xaxis': {
+                    'title': "Lables"
                 }
             }
         }
