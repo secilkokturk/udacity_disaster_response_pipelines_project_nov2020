@@ -126,7 +126,7 @@ def write_to_sqlite_db(df, sqlite_db, sqlite_table_name):
 
     print('Writing the dataset {} to sqlite db: {}\n'.format(sqlite_db, sqlite_table_name))
 
-    df.to_sql(sqlite_db, create_engine('sqlite:///'+sqlite_table_name), index=False)
+    df.to_sql(sqlite_db, create_engine('sqlite:///'+sqlite_table_name), index=False, if_exists='replace')
 
     print('Writing the dataset to sqlite db is done!\n') 
     
